@@ -6,7 +6,7 @@ const paragraphs = [
   "Nem szólt.",
   "Erre mit csináltál? Megnyomtad a kék 'boost' gombot.",
   "Elment 5.000 forint, jött 3 like, meg egy hozzászólás a nagynénidtől.",
-  "Ohmygod!",
+  "Valszeg…",
   "Célközönség? Kreatív? Pixel? Konverziós API?",
   "Mind hallottad már valakitől, csak azt nem, hogy ez pontosan mit is jelent a te boltodnak.",
   "Aztán jött egy 'guru' YouTube-ról, aki szerint elég napi 2000 forint és dől a pénz.",
