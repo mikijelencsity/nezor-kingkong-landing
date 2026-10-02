@@ -18,12 +18,9 @@ const logos = [
 export function CaseStudies() {
   return (
     <section className="bg-black px-6 py-20 text-center text-[#f8f9fa]">
-      <p className="mb-2 text-xs font-semibold tracking-widest text-accent">
+      <p className="mb-14 text-xs font-semibold tracking-widest text-accent">
         REFERENCIÁK
       </p>
-      <h2 className="mb-14 font-display text-4xl">
-        LÉGY TE A KÖVETKEZŐ SIKERTÖRTÉNET
-      </h2>
       <div className="mx-auto grid max-w-5xl grid-cols-2 gap-6 text-xs font-semibold text-[#cfcfcf] sm:grid-cols-3 lg:grid-cols-4">
         {logos.map((logo) => (
           <div
