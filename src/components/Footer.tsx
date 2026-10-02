@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Hu } from "./HuFix";
 
 const columns = [
   {
@@ -35,7 +36,7 @@ export function Footer() {
     <footer className="mt-auto bg-black px-6 py-16 text-[#f8f9fa]">
       <div className="mx-auto max-w-6xl">
         <p className="font-display mb-6 max-w-md text-2xl">
-          ONLINE RENDSZER, AMI VEVŐT HOZ. 0–24-BEN.
+          <Hu>ONLINE RENDSZER, AMI VEVŐT HOZ. 0–24-BEN.</Hu>
         </p>
         <div className="mb-10 text-sm text-[#9a9a9a]">
           <p>NEZOR Webfejlesztés</p>

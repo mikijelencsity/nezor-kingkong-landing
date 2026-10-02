@@ -1,3 +1,5 @@
+import { Hu } from "./HuFix";
+
 const placeholders = Array.from({ length: 8 }, (_, i) => i + 1);
 
 export function CaseStudyMarquee() {
@@ -9,7 +11,7 @@ export function CaseStudyMarquee() {
         ESETTANULMÁNYAINK
       </p>
       <h2 className="font-display mt-4 text-4xl leading-tight sm:text-6xl">
-        Hogy ne csak levegőbe beszéljünk.
+        <Hu>Hogy ne csak levegőbe beszéljünk.</Hu>
       </h2>
 
       <div className="relative mt-14 w-full">
