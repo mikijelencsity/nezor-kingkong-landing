@@ -3,9 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 const navItems = [
-  { n: "01", label: "Referenciák", href: "/referenciak" },
-  { n: "02", label: "Blog", href: "/blog" },
-  { n: "03", label: "Kapcsolat", href: "/kapcsolat" },
+  { n: "01", label: "Esettanulmányok", href: "/esettanulmanyok" },
+  { n: "02", label: "Kapcsolat", href: "/kapcsolat" },
 ];
 
 export function Header() {

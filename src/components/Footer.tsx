@@ -5,8 +5,7 @@ const columns = [
     title: "Cégünk",
     links: [
       { label: "Kapcsolat", href: "/kapcsolat" },
-      { label: "Blog", href: "/blog" },
-      { label: "Referenciák", href: "/referenciak" },
+      { label: "Esettanulmányok", href: "/esettanulmanyok" },
       { label: "Városok", href: "/varosok" },
     ],
   },
@@ -26,7 +25,7 @@ const columns = [
     links: [
       { label: "Ingyenes konzultáció", href: "/kapcsolat" },
       { label: "Árajánlat kérése", href: "/kapcsolat" },
-      { label: "Referenciák", href: "/referenciak" },
+      { label: "Esettanulmányok", href: "/esettanulmanyok" },
     ],
   },
 ];
