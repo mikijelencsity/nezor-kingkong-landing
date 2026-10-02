@@ -31,19 +31,19 @@ export function LetterSection() {
     <section className="relative overflow-hidden bg-[#f8f9fa] px-6 py-24 text-black">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-accent/70 via-accent/25 to-transparent sm:w-72"
+        className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-accent/40 via-accent/10 to-transparent sm:w-48 sm:from-accent/70 sm:via-accent/25 lg:w-72"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-accent/70 via-accent/25 to-transparent sm:w-72"
+        className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-accent/40 via-accent/10 to-transparent sm:w-48 sm:from-accent/70 sm:via-accent/25 lg:w-72"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-accent/70 via-accent/25 to-transparent sm:h-48"
+        className="pointer-events-none absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-accent/40 via-accent/10 to-transparent sm:h-32 sm:from-accent/70 sm:via-accent/25 lg:h-48"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-accent/70 via-accent/25 to-transparent sm:h-48"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-accent/40 via-accent/10 to-transparent sm:h-32 sm:from-accent/70 sm:via-accent/25 lg:h-48"
       />
       <div className="relative mx-auto flex max-w-2xl flex-col gap-5 text-lg leading-relaxed sm:text-xl">
         {paragraphs.map((p, i) => (

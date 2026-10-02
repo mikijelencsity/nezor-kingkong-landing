@@ -3,7 +3,7 @@ import { Hero } from "@/components/Hero";
 import { LetterSection } from "@/components/LetterSection";
 import { Offering } from "@/components/Offering";
 import { CaseStudyMarquee } from "@/components/CaseStudyMarquee";
-import { CaseStudies } from "@/components/CaseStudies";
+import { PlatformPower } from "@/components/PlatformPower";
 import { Testimonials } from "@/components/Testimonials";
 import { Faq } from "@/components/Faq";
 import { Footer } from "@/components/Footer";
@@ -25,7 +25,7 @@ export default function Home() {
           <CaseStudyMarquee />
         </Reveal>
         <Reveal>
-          <CaseStudies />
+          <PlatformPower />
         </Reveal>
         <Reveal>
           <Testimonials />
