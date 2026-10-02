@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Preloader } from "@/components/Preloader";
+import { RouteProgress } from "@/components/RouteProgress";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -27,6 +29,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${inter.variable} ${futuraCondensed.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
+        <Preloader />
+        <RouteProgress />
         {children}
       </body>
     </html>
