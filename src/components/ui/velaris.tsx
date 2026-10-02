@@ -65,7 +65,7 @@ void main() {
   vec3 col = u_bg;
 
   float dist = length(p) * 1.5;
-  float vignette = 1.0 - smoothstep(0.3, 1.2, dist);
+  float vignette = 1.0 - smoothstep(0.55, 1.4, dist);
 
   col = mix(col, u_colors[0], smoothstep(-0.2, 0.5, n1) * 0.85);
   col = mix(col, u_colors[1], smoothstep(-0.1, 0.6, n2) * 0.7);
@@ -75,7 +75,7 @@ void main() {
   float glow = smoothstep(0.8, 0.0, dist) * 0.3;
   col += u_colors[1] * glow;
 
-  col = mix(col * 0.2, col, vignette);
+  col = mix(col * 0.45, col, vignette);
 
   float grain = fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453 + u_time);
   col += (grain - 0.5) * u_grain * 0.1;

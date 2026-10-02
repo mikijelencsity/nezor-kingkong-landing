@@ -5,7 +5,7 @@ const HERO_COLORS = ["#8fae1c", "#5c7415", "#1f2e07", "#000000"];
 export function Hero() {
   return (
     <Velaris
-      height="100dvh"
+      height="100svh"
       bg="#000000"
       colors={HERO_COLORS}
       speed={1.1}
