@@ -2,7 +2,6 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
-import { Hu } from "@/components/HuFix";
 
 const bacsKiskun = [
   "Kecskemét", "Baja", "Kalocsa", "Kiskunfélegyháza", "Kiskunhalas",
@@ -25,9 +24,7 @@ function CityGrid({ cities }: { cities: string[] }) {
           key={c}
           className="group flex flex-col gap-2 rounded-xl border border-white/10 bg-card px-5 py-5 transition-all hover:-translate-y-1 hover:border-accent/50"
         >
-          <p className="font-display text-lg">
-            <Hu>{c}</Hu>
-          </p>
+          <p className="font-display text-lg">{c}</p>
           <p className="text-[11px] text-[#8a8a8a]">
             Weboldal · Webshop · Facebook hirdetés · Google hirdetés
           </p>
