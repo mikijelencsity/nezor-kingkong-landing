@@ -1,6 +1,11 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
+import { LogoPreloader } from "./LogoPreloader";
+
+// Az új grafikai preloader kipróbálása: http://localhost:3000/?preloader=uj (a többi látogató a régit kapja).
+const isPreview = () => window.location.search.includes("preloader=uj");
+const noSubscribe = () => () => {};
 
 // Hajszálgyűrűs számláló a hero háttere felett. A főoldalon a fátyol átlátszó: a hero valódi háttere
 // látszik végig, nem változik semmi, csak a gyűrű + felirat menekül ki balra (forogva, fade-elve),
@@ -66,6 +71,7 @@ function RingSvg({ svgRef, arcRef, track = "rgba(255,255,255,.2)" }: {
 export function Preloader() {
   const home = usePathname() === "/";
   const [hidden, setHidden] = useState(false);
+  const preview = useSyncExternalStore(noSubscribe, isPreview, () => false);
   const veilRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -75,6 +81,7 @@ export function Preloader() {
   const ghostRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
+    if (isPreview()) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       signalDone();
       signalLanded();
@@ -196,6 +203,18 @@ export function Preloader() {
   }, [home]);
 
   if (hidden) return null;
+
+  if (preview) {
+    return (
+      <LogoPreloader
+        onReveal={() => {
+          signalLanded();
+          signalDone();
+        }}
+        onFinish={() => setHidden(true)}
+      />
+    );
+  }
 
   return (
     <div aria-hidden="true" data-home={home ? "1" : undefined} className="nz-pl pointer-events-none fixed inset-0 z-[200]">

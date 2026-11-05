@@ -10,7 +10,7 @@ const faqs = [
   },
   {
     q: "Van havi díj? Mit fedez?",
-    a: "Igen, ez a hirdetéskezelés díja — a hirdetési költségtől külön. Ebbe tartozik a célzás, a kreatívok, a szövegírás, az optimalizálás és a heti egyeztetés. Nem tűnünk el, miután megkaptuk a pénzt.",
+    a: "Igen, havi 79 000 Ft, ez a hirdetéskezelés díja — a hirdetési költségtől külön. Ebbe tartozik a célzás, a kreatívok, a szövegírás, az optimalizálás és a heti egyeztetés. Nem tűnünk el, miután megkaptuk a pénzt.",
   },
   {
     q: "Mi van, ha már van weboldalam vagy Facebook oldalam?",
@@ -33,7 +33,7 @@ const faqs = [
 export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section className="px-6 py-28 text-black sm:py-36">
+    <section className="px-6 pb-28 pt-6 text-black sm:pb-36 sm:pt-8">
       <div className="relative mx-auto max-w-5xl">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -51,7 +51,7 @@ export function Faq() {
         {faqs.map((f, i) => (
           <div
             key={f.q}
-            className="rounded-2xl border border-black/10 bg-[#e6e8eb] transition-colors hover:border-accent/40"
+            className="rounded-2xl border border-accent/15 bg-white shadow-[0_14px_40px_-24px_rgba(8,102,255,0.6)] transition-colors hover:border-accent/40"
           >
             <button
               className="flex w-full items-center justify-between px-7 py-6 text-left text-lg font-semibold sm:text-2xl"

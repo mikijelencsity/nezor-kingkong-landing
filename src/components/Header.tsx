@@ -4,9 +4,10 @@ import Link from "next/link";
 import { OpenWizardButton } from "./OpenWizardButton";
 
 const navItems = [
-  { n: "01", label: "Esettanulmányok", href: "/esettanulmanyok" },
-  { n: "02", label: "Weboldalak", href: "/weboldalak" },
-  { n: "03", label: "Kapcsolat", href: "/kapcsolat" },
+  { n: "01", label: "Miért mi?", href: "/miert-mi" },
+  { n: "02", label: "Esettanulmányok", href: "/esettanulmanyok" },
+  { n: "03", label: "Weboldalak", href: "/weboldalak" },
+  { n: "04", label: "Kapcsolat", href: "/kapcsolat" },
 ];
 
 export function Header() {

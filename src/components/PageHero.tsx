@@ -12,7 +12,7 @@ export function PageHero({
       <p className="text-xs font-semibold tracking-widest text-accent">
         {eyebrow}
       </p>
-      <h1 className="font-display max-w-3xl text-4xl leading-[0.95] sm:text-6xl">
+      <h1 className="font-display max-w-3xl text-4xl leading-[1.15] sm:text-6xl">
         {title}
       </h1>
       <p className="max-w-xl text-sm text-[#cfcfcf] sm:text-base">

@@ -187,7 +187,7 @@ export function MetaCta() {
       <div className="relative z-10 mx-auto max-w-6xl">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/images/meta3d/raketa.webp" alt="" className="animate-float-a mx-auto mb-4 w-28 select-none drop-shadow-[0_22px_30px_rgba(8,102,255,0.55)] sm:w-40" />
-        <h2 className="font-display leading-[0.95]">
+        <h2 className="font-display leading-[1.15]">
           <span className="block whitespace-nowrap text-[clamp(1.35rem,5.4vw,3.75rem)]">
             A PÉNZ NEM FOG MAGÁTÓL BEJÖNNI.
           </span>

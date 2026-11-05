@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { marqueeCards, type CaseStudy, type UpcomingCase } from "@/data/cases";
 
-// Csak a kép és a név-címke: a számok a hirdetés képén és az esettanulmány-oldalon vannak.
+// Csak a kép és a név-címke: a számok a hirdetés képén és az esettanulmányok listáján vannak (a kártya oda visz, az ügyfélhez görgetve).
 // Az adat nélküli kártya (UpcomingCase) nem kattintható.
 function ResultCard({ c }: { c: CaseStudy | UpcomingCase }) {
   const clickable = "results" in c;
@@ -22,7 +22,7 @@ function ResultCard({ c }: { c: CaseStudy | UpcomingCase }) {
   );
   const cls = "group relative block aspect-[4/5] w-72 shrink-0 overflow-hidden rounded-2xl bg-card sm:w-[26rem]";
   return clickable ? (
-    <Link href={`/esettanulmanyok/${c.slug}`} className={cls}>
+    <Link href={`/esettanulmanyok#${c.slug}`} className={cls}>
       {inner}
     </Link>
   ) : (
@@ -59,11 +59,6 @@ export function CaseStudyMarquee() {
       >
         Még több eredmény →
       </Link>
-
-      <p className="mx-auto mt-8 max-w-xl px-6 text-xs text-white/40">
-        Az adatok a Meta hirdetéskezelőből származnak, 2026. november 2-i állapot
-        szerint. Az eredmények cégenként eltérhetnek.
-      </p>
     </section>
   );
 }

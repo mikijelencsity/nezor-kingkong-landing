@@ -1,30 +1,8 @@
 import { OpenWizardButton } from "./OpenWizardButton";
 import { Halo } from "./Halo";
+import { PriceCard } from "./PriceCard";
 
-// Egyenes beszéd: szakszó → emberül (lapos lista), alatta két egyenes állítás. Csili-vili nélkül.
-const dictionary = [
-  {
-    jargon: "360 fokos kommunikációs stratégia",
-    human: "Kitaláljuk, ki vásárolna tőled, és megmutatunk neki téged.",
-  },
-  {
-    jargon: "Konverziós tölcsér optimalizálása",
-    human: "Aki rákattint, az ajánlatot kér, nem csak nézelődik.",
-  },
-  {
-    jargon: "Havi riport (42 oldalas PDF)",
-    human: "Két mondatban megírjuk, mennyit hozott. A többit úgysem olvasnád el.",
-  },
-  {
-    jargon: "Célcsoport-szegmentálás",
-    human: "Nem mindenkinek hirdetünk, hanem annak, aki tényleg vehetne tőled.",
-  },
-  {
-    jargon: "Skálázható megoldás",
-    human: "Ha működik, még több pénzt rakunk rá. Ha nem, megmondjuk, és nem toljuk tovább.",
-  },
-];
-
+// Két egyenes állítás, az ár és a felhívás. Csili-vili nélkül.
 const statements = [
   {
     title: "A NEHEZÉT MI CSINÁLJUK.",
@@ -38,39 +16,20 @@ const statements = [
 
 export function StraightTalk() {
   return (
-    <section className="px-6 py-24 text-black sm:py-32">
+    <section className="px-6 pb-6 pt-24 text-black sm:pb-8 sm:pt-32">
       <div className="mx-auto max-w-4xl">
-        <h2 className="font-display text-center text-[clamp(2.25rem,8vw,5.5rem)] leading-none">
-          EGYENESEN MONDJUK.
-        </h2>
-        <p className="mx-auto mb-12 mt-5 max-w-xl text-center text-base text-[#5a5a5a] sm:text-lg">
-          Az ügynökségi nyelvet lefordítottuk. Így hangzik ugyanez emberül.
-        </p>
-
-        <ul className="border-t border-black/15">
-          {dictionary.map((d) => (
-            <li
-              key={d.jargon}
-              className="grid gap-2 border-b border-black/15 py-6 md:grid-cols-[2fr_3fr] md:items-baseline md:gap-10 md:py-7"
-            >
-              <span className="text-base font-medium text-black/70 line-through decoration-black/40 decoration-1 sm:text-lg">
-                {d.jargon}
-              </span>
-              <span className="font-display text-2xl leading-[1.1] sm:text-3xl">{d.human}</span>
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-20 flex flex-col gap-12">
+        <div className="flex flex-col gap-12">
           {statements.map((s) => (
             <div key={s.title} className="border-l-[6px] border-accent pl-6 sm:pl-8">
-              <h3 className="font-display text-3xl leading-none sm:text-5xl">{s.title}</h3>
+              <h3 className="font-display text-3xl leading-[1.15] sm:text-5xl">{s.title}</h3>
               <p className="mt-4 max-w-2xl text-lg leading-relaxed text-[#4a4a4a] sm:text-xl">
                 {s.text}
               </p>
             </div>
           ))}
         </div>
+
+        <PriceCard />
 
         <div className="mt-20 text-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}

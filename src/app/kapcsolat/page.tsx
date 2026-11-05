@@ -61,7 +61,7 @@ export default function Kapcsolat() {
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             KAPCSOLAT
           </p>
-          <h1 className="font-display mt-5 text-[clamp(2.6rem,8vw,6rem)] leading-[0.98]">
+          <h1 className="font-display mt-5 text-[clamp(2.6rem,8vw,6rem)] leading-[1.15]">
             BESZÉLGESSÜNK <span className="text-accent">20 PERCET.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-base text-ink/65 sm:text-lg">

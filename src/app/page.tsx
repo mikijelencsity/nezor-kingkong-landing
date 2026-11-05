@@ -4,6 +4,9 @@ import { PartnerStrip } from "@/components/PartnerStrip";
 import { LetterSection } from "@/components/LetterSection";
 import { Offering } from "@/components/Offering";
 import { CaseStudyMarquee } from "@/components/CaseStudyMarquee";
+import { HelpCta } from "@/components/HelpCta";
+import { HomeConsultation } from "@/components/HomeConsultation";
+import { MobileCta } from "@/components/MobileCta";
 import { StraightTalk } from "@/components/StraightTalk";
 import { Faq } from "@/components/Faq";
 import { MetaCta } from "@/components/MetaCta";
@@ -32,8 +35,12 @@ export default function Home() {
         <Reveal>
           <CaseStudyMarquee />
         </Reveal>
+        <HomeConsultation />
         <HorizonDivider from="#000000" to="#f8f9fa" />
         <div className="pastel-flow-img">
+          <Reveal>
+            <HelpCta />
+          </Reveal>
           <Reveal>
             <StraightTalk />
           </Reveal>
@@ -45,6 +52,7 @@ export default function Home() {
           <MetaCta />
         </Reveal>
       </main>
+      <MobileCta />
       <Footer />
     </>
   );

@@ -11,11 +11,11 @@ type Body = {
 };
 
 const LABELS: Record<string, string> = {
-  business: "Mivel foglalkozik",
-  advertised: "Hirdetett már",
-  spend: "Havi keret / eddigi költés",
-  problem: "Fő gond a hirdetésekkel",
-  goal: "Fő cél",
+  fb: "Facebook-hirdetés",
+  csatornak: "Jelenlegi ügyfélszerzés",
+  leiras: "Tevékenység",
+  keret: "Havi hirdetési keret",
+  hozzajarulas: "Adatkezelési hozzájárulás",
 };
 
 export async function POST(request: Request) {

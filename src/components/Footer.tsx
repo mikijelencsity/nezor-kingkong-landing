@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Roll } from "./Roll";
-import { OpenWizardButton } from "./OpenWizardButton";
+import { ContactWizard } from "./ContactWizard";
 
 const services = [
   { label: "Facebook hirdetés", href: "/" },
@@ -14,6 +14,7 @@ const services = [
 ];
 
 const company = [
+  { label: "Miért mi?", href: "/miert-mi" },
   { label: "Esettanulmányok", href: "/esettanulmanyok" },
   { label: "Weboldal referenciák", href: "/weboldalak" },
   { label: "Városok", href: "/varosok" },
@@ -23,9 +24,28 @@ const company = [
 
 const fade = "linear-gradient(to bottom, #000 78%, transparent)";
 
-function Person({ src, alt, className, scale = 1 }: { src: string; alt: string; className: string; scale?: number }) {
+// A lesöprés lépcsőzetes: a középső gombok indulnak először, utánuk az arcok, végül a többi.
+function sweep(swept: boolean, delay: number) {
+  return { "data-swept": swept, style: { transitionDelay: swept ? `${delay}ms` : "0ms" } };
+}
+
+function Person({
+  src,
+  alt,
+  className,
+  scale = 1,
+  swept,
+  delay,
+}: {
+  src: string;
+  alt: string;
+  className: string;
+  scale?: number;
+  swept: boolean;
+  delay: number;
+}) {
   return (
-    <div className={`relative self-end lg:h-full ${className}`}>
+    <div {...sweep(swept, delay)} className={`nz-sweep relative self-end lg:h-full ${className}`}>
       <div className="pointer-events-none absolute left-1/2 top-[18%] h-[70%] w-[95%] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(47,111,224,0.4),transparent_68%)] blur-2xl" />
       <div
         style={{ WebkitMaskImage: fade, maskImage: fade, transform: `scale(${scale})`, transformOrigin: "50% 100%" }}
@@ -64,6 +84,23 @@ export function Footer() {
   const innerRef = useRef<HTMLDivElement>(null);
   const [subEmail, setSubEmail] = useState("");
   const [subState, setSubState] = useState<"idle" | "sending" | "ok" | "error">("idle");
+  const [formOpen, setFormOpen] = useState(false);
+  const formRef = useRef<HTMLDivElement>(null);
+  const openButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Megnyitáskor az űrlapra, bezáráskor vissza a gombra kerül a fókusz.
+  useEffect(() => {
+    if (!formOpen) return;
+    formRef.current?.focus({ preventScroll: true });
+    // Ha a lábléc magasabb a képernyőnél, a tetejéhez görgetünk, hogy az űrlap eleje látsszon.
+    const top = footRef.current?.getBoundingClientRect().top ?? 0;
+    if (top < 0) window.scrollBy({ top, behavior: "smooth" });
+  }, [formOpen]);
+
+  function closeForm() {
+    setFormOpen(false);
+    openButtonRef.current?.focus({ preventScroll: true });
+  }
 
   async function subscribe(e: React.FormEvent) {
     e.preventDefault();
@@ -121,20 +158,55 @@ export function Footer() {
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_80%_at_50%_100%,#1747a6,#0a1f4d_70%)]"
         />
-        <div aria-hidden className="pointer-events-none absolute inset-x-0 top-[3%] select-none text-center">
+        <div
+          aria-hidden
+          {...sweep(formOpen, 180)}
+          className="nz-sweep pointer-events-none absolute inset-x-0 top-[3%] select-none text-center"
+        >
           <p className="font-display text-[22vw] leading-none text-white/[0.06]">NEZOR</p>
         </div>
 
+        {/* a gomb helyére beúszó űrlap */}
+        {formOpen && (
+          <div
+            ref={formRef}
+            tabIndex={-1}
+            role="region"
+            aria-label="Ingyenes konzultáció"
+            onKeyDown={(e) => {
+              if (e.key === "Escape") closeForm();
+            }}
+            className="nz-foot-form absolute inset-0 z-20 overflow-y-auto overscroll-contain px-4 pb-6 pt-28 outline-none [@media(min-width:1024px)_and_(min-height:760px)]:pt-6"
+          >
+            <div className="mx-auto flex min-h-full w-full max-w-2xl flex-col [@media(min-width:1024px)_and_(min-height:760px)]:justify-center">
+              <button
+                type="button"
+                onClick={closeForm}
+                className="mb-3 w-fit rounded-full border border-white/35 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+              >
+                ← Mégsem
+              </button>
+              <ContactWizard advertised={null} />
+            </div>
+          </div>
+        )}
+
         {/* felső rész: két arc a szöveg két oldalán, egymás felé mutatnak */}
         <div className="relative mx-auto grid w-full max-w-6xl grid-cols-2 gap-x-1 px-4 pt-16 sm:px-6 lg:min-h-0 lg:flex-1 lg:grid-cols-[1fr_1.1fr_1fr] lg:gap-x-4 lg:pt-24">
-          <div className="col-span-2 pb-8 text-center lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:self-center lg:pb-10">
+          <div
+            {...sweep(formOpen, 0)}
+            className="nz-sweep col-span-2 pb-8 text-center lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:self-center lg:pb-10"
+          >
             <div className="flex flex-wrap items-center justify-center gap-3">
-              <OpenWizardButton
-                hover="Mehet!"
-                className="rounded-full bg-accent px-10 py-5 text-lg font-bold text-white shadow-[0_14px_44px_rgba(8,102,255,0.65)] sm:px-14 sm:py-6 sm:text-2xl"
+              <button
+                ref={openButtonRef}
+                type="button"
+                aria-expanded={formOpen}
+                onClick={() => setFormOpen(true)}
+                className="btn-roll roll-dark rounded-full bg-accent px-10 py-5 text-lg font-bold text-white shadow-[0_14px_44px_rgba(8,102,255,0.65)] sm:px-14 sm:py-6 sm:text-2xl"
               >
-                Ingyenes konzultáció
-              </OpenWizardButton>
+                <Roll label="Ingyenes konzultáció" hover="Mehet!" />
+              </button>
               <button
                 type="button"
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
@@ -148,17 +220,21 @@ export function Footer() {
             src="/images/csapat/ferfi-bal.webp"
             alt="A NEZOR egyik tagja"
             className="col-start-1 row-start-2 lg:row-start-1"
+            swept={formOpen}
+            delay={60}
           />
           <Person
             src="/images/csapat/ferfi-jobb.webp"
             alt="A NEZOR másik tagja"
             className="col-start-2 row-start-2 lg:col-start-3 lg:row-start-1"
             scale={1.12}
+            swept={formOpen}
+            delay={120}
           />
         </div>
 
         {/* alsó sáv: menü, elérhetőségek */}
-        <div className="relative mx-auto w-full max-w-6xl px-6 pb-4 pt-6 sm:px-8">
+        <div {...sweep(formOpen, 40)} className="nz-sweep relative mx-auto w-full max-w-6xl px-6 pb-4 pt-6 sm:px-8">
           <div className="grid grid-cols-2 gap-x-6 gap-y-8 border-t border-white/15 pt-6 lg:grid-cols-[1.25fr_1fr_1fr_1.35fr]">
             <div className="col-span-2 lg:col-span-1">
               {/* eslint-disable-next-line @next/next/no-img-element */}

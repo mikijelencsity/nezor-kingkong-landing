@@ -100,7 +100,7 @@ function Row({
 
 export function PartnerLogos() {
   return (
-    <div className="mt-20 sm:mt-24">
+    <div className="mt-6 sm:mt-8">
       <div className="-mx-6 flex flex-col gap-10">
         <Row logos={rowOne} duration="45s" />
         <Row logos={rowTwo} reverse duration="55s" />
