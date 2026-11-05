@@ -1,17 +1,17 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { OpenWizardButton } from "./OpenWizardButton";
 
 const navItems = [
   { n: "01", label: "Esettanulmányok", href: "/esettanulmanyok" },
-  { n: "02", label: "Kapcsolat", href: "/kapcsolat" },
+  { n: "02", label: "Weboldalak", href: "/weboldalak" },
+  { n: "03", label: "Kapcsolat", href: "/kapcsolat" },
 ];
 
 export function Header() {
   const [open, setOpen] = useState(false);
-  const [hovered, setHovered] = useState<number | null>(null);
   const [hidden, setHidden] = useState(false);
-  const glowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -42,56 +42,54 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [open]);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { clientX: x, clientY: y } = e;
-    if (glowRef.current) {
-      glowRef.current.style.background = `radial-gradient(650px circle at ${x}px ${y}px, rgba(207,241,40,0.16), transparent 45%)`;
-    }
-  };
-
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-[100] text-[#f8f9fa] transition-transform duration-500 ease-out ${
-          hidden ? "-translate-y-full" : "translate-y-0"
+        className={`pointer-events-none fixed inset-x-0 top-0 z-[100] px-3 pt-3 text-[#f8f9fa] transition-transform duration-500 ease-out sm:px-4 sm:pt-4 ${
+          hidden ? "-translate-y-[160%]" : "translate-y-0"
         }`}
       >
-        <div className="relative flex items-center justify-end px-6 pt-7 pb-4 backdrop-blur-md bg-black/40">
+        <div className="pointer-events-auto relative mx-auto flex w-full max-w-[82rem] items-center justify-between rounded-[28px] border border-white/80 bg-gradient-to-b from-white/90 to-white/70 py-3 pl-3 pr-3 shadow-[0_12px_40px_-12px_rgba(8,102,255,0.35),inset_0_1px_0_rgba(255,255,255,1)] ring-1 ring-white/40 backdrop-blur-2xl backdrop-saturate-[1.8] sm:py-4 sm:pl-4">
+          <OpenWizardButton
+            hover="Mehet!"
+            className="rounded-full bg-accent px-4 py-2.5 text-xs font-semibold text-white sm:px-6 sm:text-sm"
+          >
+            <span className="sm:hidden">Konzultáció</span>
+            <span className="hidden sm:inline">Ingyenes konzultáció</span>
+          </OpenWizardButton>
           <Link
             href="/"
             onClick={() => setOpen(false)}
-            className="absolute left-1/2 -translate-x-1/2 font-display text-3xl tracking-wide text-accent transition-opacity hover:opacity-80"
+            aria-label="NEZOR"
+            className="absolute left-1/2 -translate-x-1/2 transition-transform duration-300 hover:scale-105"
           >
-            NEZOR
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/meta3d/nezor-logo.webp"
+              alt="NEZOR"
+              data-header-logo
+              className="h-12 w-auto select-none drop-shadow-[0_6px_10px_rgba(8,102,255,0.4)] sm:h-16"
+            />
           </Link>
           <button
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Menü bezárása" : "Menü megnyitása"}
             className="group flex items-center"
           >
-            <span
-              className={`relative flex h-11 w-11 items-center justify-center rounded-full border-2 border-accent transition-all duration-500 ease-out ${
-                open ? "bg-accent" : "bg-transparent group-hover:scale-105"
-              }`}
-            >
+            <span className="relative flex h-11 w-11 items-center justify-center rounded-full bg-accent transition-transform duration-500 ease-out group-hover:scale-105">
+              {/* két vonal: nyugalmi helyzetben "=", hoverre ellentétesen elcsúsznak és közelebb kerülnek, nyitva X */}
               <span
-                className={`absolute block h-0.5 w-5 rounded-full transition-all duration-300 ease-out ${
-                  open ? "translate-y-0 rotate-45 bg-black" : "-translate-y-[6px] rotate-0 bg-accent"
+                className={`absolute block h-0.5 w-5 rounded-full bg-white transition-all duration-300 ease-out ${
+                  open
+                    ? "translate-x-0 translate-y-0 rotate-45"
+                    : "-translate-y-[4px] group-hover:-translate-y-[2px] group-hover:translate-x-[3px]"
                 }`}
               />
               <span
-                className={`absolute block h-0.5 w-5 rounded-full transition-all duration-200 ease-out ${
-                  open ? "scale-x-0 opacity-0 bg-black" : "scale-x-100 opacity-100 bg-accent"
-                }`}
-              />
-              <span
-                className={`absolute block h-0.5 w-5 rounded-full transition-all duration-300 ease-out ${
-                  open ? "translate-y-0 -rotate-45 bg-black" : "translate-y-[6px] rotate-0 bg-accent"
-                }`}
-              />
-              <span
-                className={`absolute -inset-1 rounded-full border border-accent/0 transition-all duration-500 ${
-                  open ? "border-accent/40 scale-110" : "scale-100"
+                className={`absolute block h-0.5 w-5 rounded-full bg-white transition-all duration-300 ease-out ${
+                  open
+                    ? "translate-x-0 translate-y-0 -rotate-45"
+                    : "translate-y-[4px] group-hover:translate-y-[2px] group-hover:-translate-x-[3px]"
                 }`}
               />
             </span>
@@ -99,101 +97,72 @@ export function Header() {
         </div>
       </header>
 
-      {/* trailing lime halo — expands a beat ahead of the black panel */}
+      {/* Kinyíló menü: pasztell aurora, a tetején a 3D NEZOR logó */}
       <div
-        aria-hidden
-        className={`fixed inset-0 z-[88] bg-accent/25 blur-2xl transition-[clip-path,opacity] duration-[950ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
-          open
-            ? "[clip-path:circle(145%_at_100%_0%)] opacity-100"
-            : "[clip-path:circle(0%_at_100%_0%)] opacity-0"
-        }`}
-      />
-
-      <div
-        onMouseMove={handleMouseMove}
-        className={`fixed inset-0 z-[90] overflow-hidden bg-black transition-[clip-path] duration-[800ms] delay-[70ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
-          open
-            ? "[clip-path:circle(150%_at_100%_0%)]"
-            : "[clip-path:circle(0%_at_100%_0%)] pointer-events-none"
+        aria-hidden={!open}
+        className={`fixed inset-0 z-[90] overflow-hidden bg-[#eef3ff] text-ink transition-[clip-path] duration-[900ms] ease-[cubic-bezier(0.77,0,0.18,1)] ${
+          open ? "[clip-path:circle(150%_at_92%_6%)]" : "[clip-path:circle(0%_at_92%_6%)] pointer-events-none"
         }`}
       >
-        <div
-          ref={glowRef}
-          aria-hidden
-          className="pointer-events-none absolute inset-0 transition-opacity duration-500"
-          style={{ opacity: open ? 1 : 0 }}
-        />
+        <div className="aurora-a pointer-events-none absolute -left-24 -top-28 h-[28rem] w-[28rem] rounded-full bg-[#ffd9c2] blur-[90px]" />
+        <div className="aurora-b pointer-events-none absolute -right-20 top-10 h-[26rem] w-[26rem] rounded-full bg-[#d9ccff] blur-[90px]" />
+        <div className="aurora-a pointer-events-none absolute -bottom-32 left-1/3 h-[24rem] w-[30rem] rounded-full bg-[#c6f3e1] blur-[100px]" />
 
-        <span
-          aria-hidden
-          className={`animate-spin-slow pointer-events-none absolute -right-32 -top-32 select-none font-display text-[26rem] leading-none text-accent/[0.06] transition-opacity duration-700 ${
-            open ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          *
-        </span>
+        <div className="relative flex h-full flex-col items-center px-6 pb-8 pt-28 sm:px-16 sm:pt-36">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/meta3d/nezor-logo.webp"
+            alt="NEZOR"
+            className={`animate-float-a w-48 select-none drop-shadow-[0_22px_28px_rgba(8,102,255,0.35)] transition-all duration-700 sm:w-96 ${
+              open ? "translate-y-0 opacity-100 delay-300" : "-translate-y-6 opacity-0"
+            }`}
+          />
 
-        <nav
-          onMouseLeave={() => setHovered(null)}
-          className="relative flex h-full flex-col justify-center gap-1 px-8 sm:px-16"
-        >
-          {navItems.map((item, i) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setOpen(false)}
-              onMouseEnter={() => setHovered(i)}
-              className={`group flex items-baseline gap-5 border-b border-white/10 py-3 transition-all duration-500 ease-out sm:py-4 ${
-                open
-                  ? "translate-y-0 rotate-0 opacity-100"
-                  : "translate-y-10 -rotate-2 opacity-0"
-              } ${
-                hovered !== null && hovered !== i
-                  ? "opacity-30 blur-[1px]"
-                  : ""
+          <div className="flex w-full max-w-6xl flex-1 flex-col items-center justify-center gap-10 md:flex-row md:items-center md:justify-between">
+            <nav className="flex flex-col gap-1 sm:gap-3">
+              {navItems.map((item, i) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className="group flex items-baseline gap-4"
+                >
+                  <span className="text-sm font-semibold text-accent">{item.n}</span>
+                  <span className="overflow-hidden">
+                    <span
+                      className={`font-display block text-5xl uppercase leading-none transition-[transform,color] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:text-accent sm:text-7xl ${
+                        open ? "translate-y-0" : "translate-y-[115%]"
+                      }`}
+                      style={{ transitionDelay: open ? `${450 + i * 100}ms` : "0ms" }}
+                    >
+                      {item.label}
+                    </span>
+                  </span>
+                </Link>
+              ))}
+            </nav>
+
+            <div
+              className={`flex flex-col items-center gap-4 text-center transition-all duration-700 md:items-end md:text-right ${
+                open ? "translate-y-0 opacity-100 delay-[800ms]" : "translate-y-6 opacity-0"
               }`}
-              style={{ transitionDelay: open ? `${250 + i * 90}ms` : "0ms" }}
             >
-              <span
-                className={`font-display text-sm transition-all duration-300 ${
-                  hovered === i
-                    ? "scale-125 text-accent drop-shadow-[0_0_12px_rgba(207,241,40,0.8)]"
-                    : "text-accent"
-                }`}
+              <OpenWizardButton
+                hover="Mehet!"
+                className="rounded-full bg-accent px-8 py-4 text-base font-semibold text-white shadow-[0_14px_36px_-12px_rgba(8,102,255,0.8)]"
               >
-                {item.n}
-              </span>
-              <span
-                className={`font-display uppercase tracking-tight text-white transition-all duration-300 ease-out ${
-                  hovered === i
-                    ? "-translate-x-1 -skew-x-3 text-accent"
-                    : "skew-x-0"
-                } text-3xl sm:text-4xl md:text-5xl`}
-              >
-                {item.label}
-              </span>
-            </Link>
-          ))}
-        </nav>
-
-        <div
-          className={`absolute bottom-10 left-8 flex flex-col gap-1 text-sm text-white/50 transition-all duration-500 ease-out sm:left-16 ${
-            open ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0"
-          }`}
-          style={{ transitionDelay: open ? "700ms" : "0ms" }}
-        >
-          <a
-            href="tel:+36704554703"
-            className="transition-colors hover:text-accent"
-          >
-            +36 70 455 4703
-          </a>
-          <a
-            href="mailto:info@nezor.hu"
-            className="transition-colors hover:text-accent"
-          >
-            info@nezor.hu
-          </a>
+                Ingyenes konzultáció →
+              </OpenWizardButton>
+              <div className="flex flex-col gap-1 text-sm text-ink/60">
+                <a href="tel:+36704554703" className="transition-colors hover:text-accent">
+                  +36 70 455 4703
+                </a>
+                <a href="mailto:info@nezor.hu" className="transition-colors hover:text-accent">
+                  info@nezor.hu
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>

@@ -172,7 +172,9 @@ const Velaris = ({
     const ro = new ResizeObserver(resize);
     ro.observe(container);
 
-    let raf: number;
+    // Csak akkor rajzol, ha a hero látszik: a háttérben futó shader elviszi a GPU-t, és szaggatja a többi animációt.
+    let raf = 0;
+    let visible = true;
     const render = (t: number) => {
       gl.uniform2f(locs.res, canvas.width, canvas.height);
       gl.uniform1f(locs.time, t * 0.001 * speed);
@@ -183,12 +185,19 @@ const Velaris = ({
       gl.uniform3fv(locs.colors, flat);
 
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-      raf = requestAnimationFrame(render);
+      raf = visible ? requestAnimationFrame(render) : 0;
     };
+
+    const io = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible && !raf) raf = requestAnimationFrame(render);
+    });
+    io.observe(container);
 
     raf = requestAnimationFrame(render);
     return () => {
       ro.disconnect();
+      io.disconnect();
       cancelAnimationFrame(raf);
     };
   }, [bg, colors, speed, grain]);

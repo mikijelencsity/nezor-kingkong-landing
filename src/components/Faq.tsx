@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { OpenWizardButton } from "./OpenWizardButton";
+import { Halo } from "./Halo";
 
 const faqs = [
   {
@@ -31,23 +33,33 @@ const faqs = [
 export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section className="bg-black px-6 py-20 text-[#f8f9fa]">
-      <h2 className="mb-10 text-center font-display text-4xl">
-        BIZTOS VAN KÉRDÉSED. VÁLASZOLUNK.
+    <section className="px-6 py-28 text-black sm:py-36">
+      <div className="relative mx-auto max-w-5xl">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/meta3d/kerdojel.webp"
+          alt=""
+          className="animate-float-b mx-auto mb-6 w-28 -rotate-6 select-none drop-shadow-[0_22px_26px_rgba(8,102,255,0.28)] sm:w-40"
+        />
+      <h2 className="mb-14 text-center font-display text-5xl leading-[1.2] sm:text-7xl sm:leading-[1.2]">
+        BIZTOS VAN
+        <br />
+        KÉRDÉSED.
       </h2>
-      <div className="mx-auto flex max-w-3xl flex-col gap-3">
+      </div>
+      <div className="mx-auto flex max-w-5xl flex-col gap-4">
         {faqs.map((f, i) => (
           <div
             key={f.q}
-            className="rounded-xl border border-white/10 bg-card transition-colors hover:border-accent/40"
+            className="rounded-2xl border border-black/10 bg-[#e6e8eb] transition-colors hover:border-accent/40"
           >
             <button
-              className="flex w-full items-center justify-between px-5 py-4 text-left text-sm font-semibold"
+              className="flex w-full items-center justify-between px-7 py-6 text-left text-lg font-semibold sm:text-2xl"
               onClick={() => setOpen(open === i ? null : i)}
             >
               {f.q}
               <span
-                className="text-accent transition-transform"
+                className="ml-4 text-3xl text-accent transition-transform"
                 style={{ transform: open === i ? "rotate(180deg)" : "rotate(0deg)" }}
               >
                 {open === i ? "−" : "+"}
@@ -58,19 +70,21 @@ export function Faq() {
               style={{ gridTemplateRows: open === i ? "1fr" : "0fr" }}
             >
               <div className="min-h-0">
-                <p className="px-5 pb-4 text-sm text-[#cfcfcf]">{f.a}</p>
+                <p className="px-7 pb-7 text-base leading-relaxed text-[#4a4a4a] sm:text-xl">{f.a}</p>
               </div>
             </div>
           </div>
         ))}
       </div>
       <div className="mt-14 text-center">
-        <p className="mb-4 text-sm">
+        <p className="mb-5 text-base sm:text-xl">
           SZÓVAL AKKOR FOGLALJUNK EGY IDŐPONTOT?
         </p>
-        <button className="rounded-full bg-accent px-8 py-4 text-sm font-semibold text-black transition-transform hover:scale-105 active:scale-95">
-          Kérek egy konzultációt
-        </button>
+        <Halo>
+          <OpenWizardButton hover="Okos döntés." className="rounded-full bg-accent px-10 py-5 text-lg font-semibold text-white sm:text-xl">
+            Kérek egy konzultációt
+          </OpenWizardButton>
+        </Halo>
       </div>
     </section>
   );

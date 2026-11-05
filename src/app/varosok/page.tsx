@@ -1,3 +1,4 @@
+import { OpenWizardButton } from "@/components/OpenWizardButton";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageHero } from "@/components/PageHero";
@@ -62,9 +63,9 @@ export default function Varosok() {
               <p className="mb-4 text-sm">
                 A TE VÁROSOD NINCS A LISTÁN? AZ SEM AKADÁLY.
               </p>
-              <button className="rounded-full bg-accent px-8 py-4 text-sm font-semibold text-black transition-transform hover:scale-105 active:scale-95">
+              <OpenWizardButton hover="Ez az!" className="rounded-full bg-accent px-8 py-4 text-sm font-semibold text-white">
                 Kérek egy ajánlatot
-              </button>
+              </OpenWizardButton>
             </div>
           </section>
         </Reveal>

@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Preloader } from "@/components/Preloader";
 import { RouteProgress } from "@/components/RouteProgress";
+import { TabTitleBlink } from "@/components/TabTitleBlink";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -25,12 +26,17 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
+      lang="hu"
       className={`${inter.variable} ${futuraCondensed.variable} h-full antialiased`}
     >
+      <head>
+        {/* Frissítéskor ne álljon vissza a görgetés: a preloader mindig a lap tetején (a heron) induljon. */}
+        <script dangerouslySetInnerHTML={{ __html: "try{history.scrollRestoration='manual'}catch(e){}" }} />
+      </head>
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         <Preloader />
         <RouteProgress />
+        <TabTitleBlink />
         {children}
       </body>
     </html>

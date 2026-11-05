@@ -1,6 +1,21 @@
+import { Roll } from "./Roll";
+import { MetaAnim } from "./MetaAnim";
 import Velaris from "./ui/velaris";
+import { HeroMotion } from "./HeroMotion";
 
-const HERO_COLORS = ["#8fae1c", "#5c7415", "#1f2e07", "#000000"];
+const HERO_COLORS = ["#2f6fe0", "#1747a6", "#0a1f4d", "#000000"];
+
+// Szavanként maszkba csomagolva, hogy a HeroMotion alulról felúsztathassa őket.
+function Words({ text }: { text: string }) {
+  return text.split(" ").map((w, i, a) => (
+    <span key={i} className="-mt-[0.2em] inline-block overflow-hidden pt-[0.2em] align-bottom">
+      <span data-hero-w className="inline-block">
+        {w}
+        {i < a.length - 1 ? " " : ""}
+      </span>
+    </span>
+  ));
+}
 
 export function Hero() {
   return (
@@ -10,44 +25,20 @@ export function Hero() {
       colors={HERO_COLORS}
       speed={1.1}
       grain={0.12}
-      className="relative"
+      className="relative bg-black"
     >
       <div className="pointer-events-none absolute inset-0 bg-black/35" />
-      <div className="relative flex h-full flex-col items-center justify-center gap-6 px-6 pt-24 text-center">
-        <h1 className="font-display leading-[0.95] text-[#f8f9fa]">
-          <span className="block text-4xl sm:text-6xl md:text-7xl">
-            ELÉG A{" "}
-            <span className="relative inline-block">
-              SZARAKODÁSBÓL
-              <svg
-                aria-hidden
-                viewBox="0 0 400 70"
-                preserveAspectRatio="none"
-                className="pointer-events-none absolute inset-0 h-full w-full"
-              >
-                <path
-                  d="M8 62 L392 8"
-                  stroke="#cff128"
-                  strokeWidth="8"
-                  strokeLinecap="round"
-                  fill="none"
-                />
-              </svg>
-            </span>
-            ,
-          </span>
-          <span className="block text-4xl sm:text-6xl md:text-7xl">
-            KEZDJÜNK EL HIRDETNI{" "}
-            <span className="text-accent text-6xl sm:text-8xl md:text-9xl">
-              NAGYBAN.
-            </span>
-          </span>
+      <div data-hero-dim className="pointer-events-none absolute inset-0 bg-black opacity-0" />
+      <HeroMotion className="relative flex h-full flex-col items-center justify-center gap-6 px-6 pt-24 text-center">
+        <h1 className="font-display leading-[1.15] text-[#f8f9fa]">
+          <span className="block text-5xl sm:text-7xl md:text-8xl"><Words text="MINT A BANKRABLÁS," /></span>
+          <span className="block text-5xl sm:text-7xl md:text-8xl"><Words text="CSAK LEGÁLIS.*" /></span>
         </h1>
-        <p className="max-w-xl text-base text-[#cfcfcf] sm:text-lg">
-          Vevőt hozó hirdetések, nem csak like-vadászat. Kiszámítható
-          érdeklődő-áradat, amíg te a vállalkozásoddal foglalkozol.
+        <p data-hero-in className="max-w-xl text-base text-[#cfcfcf] sm:text-lg">
+          Akár még sosem hirdettél, akár már csalódtál benne: mi csináljuk, te
+          foglalkozz a vállalkozásoddal.
         </p>
-        <form className="flex w-full max-w-xl overflow-hidden rounded-full bg-[#e9e9ea]">
+        <form data-hero-in className="flex w-full max-w-xl overflow-hidden rounded-full bg-[#e9e9ea]">
           <span className="flex items-center pl-5 pr-2 text-lg">👋</span>
           <input
             type="email"
@@ -56,20 +47,18 @@ export function Hero() {
           />
           <button
             type="submit"
-            className="group flex items-center gap-2 rounded-full bg-accent px-6 py-4 text-sm font-semibold text-black transition-transform hover:scale-105 active:scale-95"
+            className="btn-roll roll-white group flex items-center gap-2 rounded-full bg-accent px-6 py-4 text-sm font-semibold text-white"
           >
-            Megyek{" "}
-            <span aria-hidden className="transition-transform group-hover:translate-x-1">
-              →
-            </span>
+            <Roll label={<>Megyek <span aria-hidden>→</span></>} hover="Mehet! →" />
           </button>
         </form>
-        <div className="flex flex-col items-center gap-1 text-xs text-[#a0a0a0]">
-          <span className="flex items-center gap-1 text-[#f8f9fa]">
-            ⭐⭐⭐⭐⭐ 5,0 csillag Google-értékelések alapján
-          </span>
-        </div>
-      </div>
+        <p data-hero-in className="max-w-xl text-sm font-medium text-[#f8f9fa]/85">
+          *Maszk és menekülőautó nélkül. Bizonyított eredményekkel.
+        </p>
+        <span data-hero-in className="block">
+          <MetaAnim className="mt-4 h-14 sm:mt-6 sm:h-[4.5rem]" />
+        </span>
+      </HeroMotion>
     </Velaris>
   );
 }
