@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { cases, formatHuf, industries, type CaseShot, type Industry } from "@/data/cases";
 import { formatNumber } from "./CountUp";
@@ -62,8 +62,25 @@ function ShotImage({ shot, alt }: { shot: CaseShot; alt: string }) {
 // Kattintásra nagyított nézet: a Bezárás gomb, az Esc és a kép melletti kattintás is kilép belőle.
 function ShotViewer({ shot, alt }: { shot: CaseShot; alt: string }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const stripRef = useRef<HTMLDivElement>(null);
+  // a nem fekvő (pl. telefonos) képernyőkép teljes szélességben túl magas lenne: keskenyebben jelenik meg
+  const tall = shot.height > shot.width * 0.5;
+
+  // Telefonon a széles hirdetéskezelő-táblázat olvasható méretben, oldalra görgethetően jelenik meg,
+  // a bekarikázott részre görgetve (karika nélkül a jobb szélre, ott vannak az összesítések).
+  useEffect(() => {
+    const el = stripRef.current;
+    if (!el || el.scrollWidth <= el.clientWidth) return;
+    const focus = shot.circle ? (shot.circle.x + shot.circle.w / 2) / 100 : 1;
+    el.scrollLeft = focus * el.scrollWidth - el.clientWidth / 2;
+  }, [shot.circle]);
+
   return (
     <>
+      <div
+        ref={stripRef}
+        className={tall ? "" : "-mx-1 overflow-x-auto px-1 pb-2 [scrollbar-width:thin] sm:mx-0 sm:overflow-visible sm:px-0 sm:pb-0"}
+      >
       <button
         type="button"
         aria-label={`${alt} nagyítása`}
@@ -74,19 +91,21 @@ function ShotViewer({ shot, alt }: { shot: CaseShot; alt: string }) {
           // keskeny kijelzőn oldalra görgethető a kép: a jelölések a jobb szélén vannak, ott nyíljon meg
           dialog.scrollLeft = dialog.scrollWidth;
         }}
-        className="block w-full cursor-zoom-in rounded-2xl text-left transition-shadow hover:shadow-[0_18px_50px_-24px_rgba(8,102,255,0.7)]"
+        className={`block cursor-zoom-in rounded-2xl text-left transition-shadow hover:shadow-[0_18px_50px_-24px_rgba(8,102,255,0.7)] ${tall ? "w-full max-w-md" : "w-[46rem] max-w-none sm:w-full"}`}
       >
         <ShotImage shot={shot} alt={alt} />
       </button>
+      </div>
+      {!tall && <p className="mt-1 text-xs text-black/45 sm:hidden">← Húzd oldalra, vagy koppints rá a nagyításhoz →</p>}
       <dialog
         ref={dialogRef}
         aria-label={alt}
         onClick={(e) => {
           if (e.target === e.currentTarget) dialogRef.current?.close();
         }}
-        className="m-auto max-h-[92dvh] w-[min(94vw,88rem)] max-w-none overflow-auto rounded-2xl bg-transparent p-0 backdrop:bg-black/85"
+        className={`m-auto max-h-[92dvh] ${tall ? "w-[min(94vw,44rem)]" : "w-[min(94vw,88rem)]"} max-w-none overflow-auto rounded-2xl bg-transparent p-0 backdrop:bg-black/85`}
       >
-        <div className="min-w-[52rem] p-1">
+        <div className={tall ? "p-1" : "min-w-[52rem] p-1"}>
           <ShotImage shot={shot} alt={alt} />
         </div>
         <button
@@ -101,20 +120,92 @@ function ShotViewer({ shot, alt }: { shot: CaseShot; alt: string }) {
   );
 }
 
-function CaseCard({ c, index }: { c: Case; index: number }) {
+// Egy esettanulmány teljes kártyája; a főoldal is ezt használja a kiemelt ügyfélhez.
+// A számok rácsa: a teljes és a rövid (főoldali) kártya is ezt használja.
+function StatGrid({ c, dense = false }: { c: Case; dense?: boolean }) {
   const r = c.results;
-
-  // a háttér első mondata mondja meg, ki az ügyfél; a többi a háttér-szakaszba kerül
-  const who = c.background.match(/^.*?\.(?=\s|$)/)?.[0] ?? c.background;
-  const context = c.background.slice(who.length).trim();
-
   const stats = [
     { label: r.unit, value: `${formatNumber(r.count)} db`, wide: true },
-    { label: "1 db ára", value: formatHuf(r.costPer) },
+    { label: r.costPerLabel ?? "1 db ára", value: formatHuf(r.costPer) },
     { label: r.spendLabel, value: r.spendDisplay ?? formatHuf(r.spend) },
     ...(r.dailySpend ? [{ label: "Napi büdzsé", value: formatHuf(r.dailySpend) }] : []),
     ...(r.monthlySpend ? [{ label: "Havi büdzsé", value: formatHuf(r.monthlySpend) }] : []),
   ];
+  return (
+    <dl className="mt-3 grid grid-cols-2 gap-3">
+      {stats.map((s) => (
+        <div
+          key={s.label}
+          className={`min-w-0 rounded-2xl border border-black/10 p-3 sm:p-4 ${s.wide ? "col-span-2 bg-accent text-white" : "bg-[#f8f9fa]"}`}
+        >
+          <dt className={`text-xs font-semibold first-letter:uppercase ${s.wide ? "text-white/80" : "text-black/60"}`}>
+            {s.label}
+          </dt>
+          <dd
+            className={`font-display mt-2 whitespace-nowrap leading-none ${
+              s.wide
+                ? "text-[clamp(2.25rem,12vw,3rem)] sm:text-6xl"
+                : `text-[clamp(0.95rem,5vw,1.25rem)] text-accent ${dense ? "sm:text-2xl md:text-xl lg:text-2xl" : "sm:text-3xl xl:text-2xl"}`
+            }`}
+          >
+            {s.value}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+function Shots({ c }: { c: Case }) {
+  if (!c.shots || c.shots.length === 0) return null;
+  return (
+    <div className="mt-10">
+      <Label>KÉPERNYŐKÉPEK · KATTINTÁSRA NAGYOBB</Label>
+      <div className="mt-3 grid gap-6">
+        {c.shots.map((shot) => (
+          <ShotViewer key={shot.src} shot={shot} alt={`${c.name} hirdetéskezelő-képernyőkép`} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Rövid kártya a főoldalra: csak a kép, a logó, a név és a számok (meg a hirdetéskezelő-képernyőkép), leírások nélkül.
+export function CaseCardCompact({ c }: { c: Case }) {
+  return (
+    <article className="rounded-[2rem] border border-black/10 bg-white p-5 shadow-[0_30px_70px_-45px_rgba(8,102,255,0.55)] sm:p-10">
+      {/* telefonon: kis kép a logó és a név mellett, alattuk a számok; tablettől: nagy kép balra, mellette fent a név, lent a számok */}
+      <div
+        className={`grid min-w-0 items-center gap-x-4 gap-y-6 md:gap-x-10 lg:gap-x-12 ${
+          c.image ? "grid-cols-[5.5rem_minmax(0,1fr)] md:grid-cols-[15rem_minmax(0,1fr)] lg:grid-cols-[17rem_minmax(0,1fr)]" : "grid-cols-1"
+        }`}
+      >
+        {c.image && (
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-black/10 bg-card md:row-span-2 md:rounded-3xl">
+            <Image src={c.image} alt="" fill sizes="(min-width: 1024px) 17rem, (min-width: 768px) 15rem, 6rem" className="object-cover" />
+          </div>
+        )}
+        <div className="min-w-0 md:self-end">
+          {c.logo && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={`/images/partnerek/${c.logo}.webp`} alt="" className="mb-2 h-7 w-auto max-w-full object-contain object-left sm:h-10 md:mb-3 md:h-12" />
+          )}
+          <h3 className="font-display text-[clamp(1.3rem,6vw,2.5rem)] uppercase leading-[1.1] [overflow-wrap:anywhere] lg:text-[2.75rem]">{c.name}</h3>
+        </div>
+        <div className={`min-w-0 md:self-start ${c.image ? "col-span-2 md:col-span-1 md:col-start-2" : ""}`}>
+          <Label>EREDMÉNYEK</Label>
+          <StatGrid c={c} dense />
+        </div>
+      </div>
+      <Shots c={c} />
+    </article>
+  );
+}
+
+export function CaseCard({ c, index }: { c: Case; index: number }) {
+  // a háttér első mondata mondja meg, ki az ügyfél; a többi a háttér-szakaszba kerül
+  const who = c.background.match(/^.*?\.(?=\s|$)/)?.[0] ?? c.background;
+  const context = c.background.slice(who.length).trim();
 
   return (
     <article
@@ -129,7 +220,7 @@ function CaseCard({ c, index }: { c: Case; index: number }) {
             {c.industry.toUpperCase()} · {c.subsegment.toUpperCase()}
             {c.location && ` · ${c.location.toUpperCase()}`}
           </p>
-          <h2 className="font-display mt-3 text-[clamp(1.5rem,9vw,2.25rem)] uppercase leading-[1.15] [overflow-wrap:anywhere] sm:text-6xl lg:text-5xl">
+          <h2 className="font-display mt-3 text-[clamp(1.5rem,9vw,2.25rem)] uppercase leading-[1.15] [overflow-wrap:anywhere] sm:text-6xl lg:text-5xl xl:text-[2.6rem]">
             {c.name}
           </h2>
           {c.website && (
@@ -137,7 +228,7 @@ function CaseCard({ c, index }: { c: Case; index: number }) {
               href={c.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 inline-block text-sm text-black/60 transition-colors hover:text-accent"
+              className="mt-1.5 inline-block py-1.5 text-sm text-black/60 transition-colors hover:text-accent"
             >
               {new URL(c.website).hostname.replace(/^www\./, "")} <span aria-hidden>↗</span>
             </a>
@@ -162,27 +253,7 @@ function CaseCard({ c, index }: { c: Case; index: number }) {
         {/* eredmények */}
         <div className="min-w-0 lg:col-start-2 lg:row-start-1 xl:col-start-3">
           <Label>EREDMÉNYEK</Label>
-          <dl className="mt-3 grid grid-cols-2 gap-3">
-            {stats.map((s) => (
-              <div
-                key={s.label}
-                className={`min-w-0 rounded-2xl border border-black/10 p-3 sm:p-4 ${s.wide ? "col-span-2 bg-accent text-white" : "bg-[#f8f9fa]"}`}
-              >
-                <dt className={`text-xs font-semibold first-letter:uppercase ${s.wide ? "text-white/80" : "text-black/60"}`}>
-                  {s.label}
-                </dt>
-                <dd
-                  className={`font-display mt-2 whitespace-nowrap leading-none ${
-                    s.wide
-                      ? "text-[clamp(2.25rem,12vw,3rem)] sm:text-6xl"
-                      : "text-[clamp(0.95rem,5vw,1.25rem)] text-accent sm:text-3xl xl:text-2xl"
-                  }`}
-                >
-                  {s.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
+          <StatGrid c={c} />
           {c.note && <p className="mt-3 text-sm text-[#4a4a4a]">{c.note}</p>}
         </div>
 
@@ -203,23 +274,14 @@ function CaseCard({ c, index }: { c: Case; index: number }) {
           ) : (
             // még nincs saját kép: névpanel, csak a háromoszlopos elrendezésben kell, hogy ne maradjon lyuk
             <span className="absolute inset-0 flex items-end bg-gradient-to-br from-accent to-[#0a1f4d] p-6">
-              <span className="font-display min-w-0 text-[1.75rem] uppercase leading-[1.15] text-white">{c.name}</span>
+              <span className="font-display min-w-0 text-[1.35rem] uppercase leading-[1.15] text-white [overflow-wrap:anywhere]">{c.name}</span>
             </span>
           )}
         </div>
       </div>
 
       {/* valódi hirdetéskezelő-képernyőképek (csak ha az ügyfélhez fel van véve) */}
-      {c.shots && c.shots.length > 0 && (
-        <div className="mt-10">
-          <Label>KÉPERNYŐKÉPEK · KATTINTÁSRA NAGYOBB</Label>
-          <div className="mt-3 grid gap-6">
-            {c.shots.map((shot) => (
-              <ShotViewer key={shot.src} shot={shot} alt={`${c.name} hirdetéskezelő-képernyőkép`} />
-            ))}
-          </div>
-        </div>
-      )}
+      <Shots c={c} />
     </article>
   );
 }
@@ -291,7 +353,7 @@ export function CasesExplorer() {
         </div>
       </section>
 
-      <BottomCta />
+      <BottomCta service="hirdetes" />
     </>
   );
 }

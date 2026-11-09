@@ -7,6 +7,8 @@
   --accent-deep: #0650cc;
   --accent-soft: #6ca8ff;
   --ink: #0b1b3a;
+  /* a sötét szekciók háttere: tiszta fekete helyett egy árnyalattal világosabb */
+  --night: #212121;
   --card-bg: #ffffff;
 }
 
@@ -17,6 +19,7 @@
   --color-accent-deep: var(--accent-deep);
   --color-accent-soft: var(--accent-soft);
   --color-ink: var(--ink);
+  --color-night: var(--night);
   --color-card: var(--card-bg);
   --font-sans: var(--font-inter);
   --font-display: var(--font-futura-condensed), var(--font-inter), sans-serif;

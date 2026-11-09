@@ -3,6 +3,7 @@ import { MetaAnim } from "./MetaAnim";
 import Velaris from "./ui/velaris";
 import { HeroMotion } from "./HeroMotion";
 
+// a hero és a logósáv tiszta fekete marad (a többi sötét szekció a --night árnyalatot kapja)
 const HERO_COLORS = ["#2f6fe0", "#1747a6", "#0a1f4d", "#000000"];
 
 // Szavanként maszkba csomagolva, hogy a HeroMotion alulról felúsztathassa őket.
@@ -28,6 +29,8 @@ export function Hero() {
       className="relative bg-black"
     >
       <div className="pointer-events-none absolute inset-0 bg-black/35" />
+      {/* az alja pontosan a logósáv hátterébe fut ki, hogy ne legyen varrat */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-black" />
       <div data-hero-dim className="pointer-events-none absolute inset-0 bg-black opacity-0" />
       <HeroMotion className="relative flex h-full flex-col items-center justify-center gap-6 px-6 pt-24 text-center">
         {/* a sortávolságnak a soron kell lennie: a text-* osztály különben felülírja 1-re */}

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { marqueeCards, type CaseStudy, type UpcomingCase } from "@/data/cases";
+import { cases, marqueeCards, type CaseStudy, type UpcomingCase } from "@/data/cases";
+import { CaseCardCompact } from "./CasesExplorer";
 
 // Csak a kép és a név-címke: a számok a hirdetés képén és az esettanulmányok listáján vannak (a kártya oda visz, az ügyfélhez görgetve).
 // Az adat nélküli kártya (UpcomingCase) nem kattintható.
@@ -30,11 +31,15 @@ function ResultCard({ c }: { c: CaseStudy | UpcomingCase }) {
   );
 }
 
+// a képsáv alatt kiemelt ügyfél
+const FEATURED_SLUG = "mobilhazgyarto";
+
 export function CaseStudyMarquee() {
   const items = [...marqueeCards, ...marqueeCards];
+  const featured = cases.find((c) => c.slug === FEATURED_SLUG);
 
   return (
-    <section className="overflow-hidden bg-black py-20 text-center text-[#f8f9fa]">
+    <section className="overflow-hidden bg-night py-20 text-center text-[#f8f9fa]">
       <p className="text-xs font-semibold tracking-widest text-accent sm:text-sm">
         ESETTANULMÁNYAINK
       </p>
@@ -43,8 +48,8 @@ export function CaseStudyMarquee() {
       </h2>
 
       <div className="relative mt-14 w-full">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-black to-transparent sm:w-32" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-black to-transparent sm:w-32" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-night to-transparent sm:w-32" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-night to-transparent sm:w-32" />
 
         <div className="flex w-max animate-marquee gap-6 hover:[animation-play-state:paused]">
           {items.map((c, i) => (
@@ -53,11 +58,18 @@ export function CaseStudyMarquee() {
         </div>
       </div>
 
+      {/* kiemelt esettanulmány a képsáv alatt: rövid kártya, csak kép, logó, név és számok */}
+      {featured && (
+        <div className="mx-auto mt-16 max-w-6xl px-4 text-left text-black sm:mt-20 sm:px-6">
+          <CaseCardCompact c={featured} />
+        </div>
+      )}
+
       <Link
         href="/esettanulmanyok"
         className="mt-12 inline-block rounded-full border border-accent bg-accent px-10 py-4 text-base font-semibold text-white shadow-[0_0_32px_-4px] shadow-accent/60 transition-all duration-500 ease-out hover:scale-105 hover:shadow-[0_0_44px_-2px] hover:shadow-accent/80"
       >
-        Még több eredmény →
+        Esettanulmányok →
       </Link>
     </section>
   );

@@ -6,9 +6,10 @@ import { HorizonDivider } from "@/components/HorizonDivider";
 import { OpenWizardButton } from "@/components/OpenWizardButton";
 import { Reveal } from "@/components/Reveal";
 import { cases, formatCount, formatHuf } from "@/data/cases";
+import { howItWorksSteps } from "@/data/howItWorks";
 
 export const metadata: Metadata = {
-  title: "Miért mi? | NEZOR",
+  title: "Kisokos | NEZOR",
   description:
     "Tényleg hoz ügyfelet egy Facebook-hirdetés? Elmagyarázzuk, hogyan működik, megmutatjuk két saját ügyfelünk számait, a döntést pedig rád bízzuk.",
 };
@@ -27,24 +28,7 @@ const myth = [
   { slug: "arokto", text: "Senior rezidencia, amit a családok alaposan megfontolnak." },
 ].map(({ slug, text }) => ({ ...pick(slug), text }));
 
-const steps = [
-  {
-    title: "Kitaláljuk, ki vehetne tőled.",
-    text: "Nem mindenkinek hirdetünk. Egy térkövezőnek a környéken élők kellenek. Egy nyomtatóforgalmazónak a cégek.",
-  },
-  {
-    title: "Több üzenetet próbálunk ki.",
-    text: "Előre senki nem tudja, melyik hirdetés nyer. Ezért többet indítunk: a LégvárBirodalomnál tizenkettőt, a Lukács Parkettánál tízet.",
-  },
-  {
-    title: "Aki érdeklődik, megadja az elérhetőségét.",
-    text: "Te pedig megkapod. Név, telefonszám, és egy ember, aki már kért valamit tőled.",
-  },
-  {
-    title: "Ami működik, arra többet rakunk.",
-    text: "Ami nem, azt leállítjuk. Utána két mondatban megírjuk, mennyit hozott.",
-  },
-];
+const steps = howItWorksSteps;
 
 const examples = [
   {
@@ -67,14 +51,8 @@ const examples = [
   },
 ];
 
-const founders = [
-  { name: "Müller Dániel", src: "/images/csapat/ferfi-bal.webp", scale: 1 },
-  // a két fotón eltér az arány: így látszanak ugyanakkorának (a láblécben is ez a nagyítás)
-  { name: "Jelencsity Miklós", src: "/images/csapat/ferfi-jobb.webp", scale: 1.12 },
-];
-
-function Question({ children }: { children: React.ReactNode }) {
-  return <h2 className="font-display mb-8 text-[clamp(2.5rem,9vw,5rem)] leading-[1.15] sm:mb-10">{children}</h2>;
+function Question({ children, className = "text-[clamp(1.9rem,8.4vw,5rem)]" }: { children: React.ReactNode; className?: string }) {
+  return <h2 className={`font-display mb-8 leading-[1.15] sm:mb-10 ${className}`}>{children}</h2>;
 }
 
 function Lines({ children }: { children: React.ReactNode }) {
@@ -93,16 +71,22 @@ export default function MiertMi() {
             aria-hidden
             className="pointer-events-none absolute left-1/2 top-24 h-[24rem] w-[50rem] max-w-[140vw] -translate-x-1/2 rounded-full bg-accent/40 blur-[120px]"
           />
-          <div className="relative mx-auto max-w-3xl">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/meta3d/kerdojel.webp"
-              alt=""
-              className="animate-float-b mx-auto mb-6 w-28 -rotate-6 select-none drop-shadow-[0_22px_26px_rgba(8,102,255,0.28)] sm:w-40"
-            />
-            <h1 className="font-display text-center text-[clamp(2.75rem,10vw,6.5rem)] leading-[1.15]">
-              TÉNYLEG HOZ ÜGYFELET EGY FACEBOOK-HIRDETÉS?
+          {/* a cím két sorban; a kérdőjel helyén a 3D kérdőjel áll, közvetlenül a szöveg mellett */}
+          <div className="relative mx-auto w-fit max-w-full">
+            <h1 className="font-display text-center text-[clamp(1.25rem,7.2vw,5rem)] leading-[1.1]">
+              <span className="block whitespace-nowrap">TÉNYLEG HOZ ÜGYFELET</span>
+              <span className="block whitespace-nowrap">
+                EGY FACEBOOK-HIRDETÉS
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/meta3d/kerdojel.webp"
+                  alt="?"
+                  className="animate-float-b ml-[0.06em] inline-block h-[0.95em] w-auto select-none align-baseline drop-shadow-[0_14px_18px_rgba(8,102,255,0.28)]"
+                />
+              </span>
             </h1>
+          </div>
+          <div className="relative mx-auto max-w-3xl">
             <div className="mt-12 sm:mt-16">
               <Lines>
                 <p>Jogos kérdés.</p>
@@ -147,7 +131,8 @@ export default function MiertMi() {
         <section className="px-6 pb-20 sm:pb-28">
           <Reveal>
             <div className="mx-auto max-w-3xl">
-              <Question>JÓ, DE HOGY MŰKÖDIK EZ?</Question>
+              {/* egy sorban marad: a szélessége kb. 12,1 × betűméret, ezért a betűméret a hasábhoz (max. 768 px) igazodik */}
+              <Question className="whitespace-nowrap text-[clamp(1.25rem,calc((100vw-3rem)/12.4),3.9rem)]">JÓ, DE HOGY MŰKÖDIK EZ?</Question>
               <Lines>
                 <p>Négy lépés. Semmi varázslat.</p>
               </Lines>
@@ -169,8 +154,8 @@ export default function MiertMi() {
         </section>
 
         {/* két saját példa */}
-        <HorizonDivider from="#f8f9fa" to="#000000" flip />
-        <section className="bg-black px-6 py-16 text-[#f8f9fa] sm:py-24">
+        <HorizonDivider from="#f8f9fa" to="#212121" flip />
+        <section className="bg-night px-6 py-16 text-[#f8f9fa] sm:py-24">
           <Reveal>
             <div className="mx-auto max-w-5xl">
               <Question>MUTASSUK MEG.</Question>
@@ -184,10 +169,10 @@ export default function MiertMi() {
                         <p key={line}>{line}</p>
                       ))}
                     </div>
-                    <dl className="mt-6 grid grid-cols-3 gap-3 border-t border-white/15 pt-5">
+                    <dl className="mt-6 grid grid-cols-2 gap-3 border-t border-white/15 pt-5 min-[400px]:grid-cols-3">
                       {[
                         { label: c.results.unit, value: formatCount(c.results.count) },
-                        { label: "1 db ára", value: formatHuf(c.results.costPer) },
+                        { label: c.results.costPerLabel ?? "1 db ára", value: formatHuf(c.results.costPer) },
                         { label: c.results.spendLabel, value: formatHuf(c.results.spend) },
                       ].map((s) => (
                         <div key={s.label} className="min-w-0">
@@ -208,7 +193,7 @@ export default function MiertMi() {
             </div>
           </Reveal>
         </section>
-        <HorizonDivider from="#000000" to="#f8f9fa" />
+        <HorizonDivider from="#212121" to="#f8f9fa" />
 
         {/* neked is megcsinálható */}
         <section className="px-6 pb-20 pt-12 sm:pb-28 sm:pt-16">
@@ -239,24 +224,11 @@ export default function MiertMi() {
                 <p>Beszéljünk 20 percet, ingyen, kötelezettség nélkül. Megnézzük a vállalkozásodat, és elmondjuk, mit csinálnánk.</p>
                 <p>Aztán eldöntöd.</p>
               </Lines>
-              <div className="mt-10 flex items-end justify-center gap-4 sm:gap-14">
-                {founders.map((f) => (
-                  <figure key={f.name} className="w-36 text-center sm:w-52">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={f.src}
-                      alt={`${f.name}, a NEZOR alapítója`}
-                      loading="lazy"
-                      style={{ scale: f.scale, transformOrigin: "50% 100%" }}
-                      className="mx-auto w-full select-none [mask-image:linear-gradient(to_bottom,#000_80%,transparent)]"
-                    />
-                    <figcaption className="mt-2 font-bold">{f.name}</figcaption>
-                  </figure>
-                ))}
-              </div>
-              <div className="mt-10 text-center">
+              {/* a gomb a szöveg alá, balra igazítva, mint a bekezdések */}
+              <div className="mt-10 text-left">
                 <Halo>
                   <OpenWizardButton
+                    service="hirdetes"
                     hover="Na, lássuk!"
                     className="font-display rounded-full bg-accent px-10 py-6 text-2xl tracking-wide text-white sm:px-16 sm:text-3xl"
                   >

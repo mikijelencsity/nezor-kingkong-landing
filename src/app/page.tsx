@@ -4,12 +4,9 @@ import { PartnerStrip } from "@/components/PartnerStrip";
 import { LetterSection } from "@/components/LetterSection";
 import { Offering } from "@/components/Offering";
 import { CaseStudyMarquee } from "@/components/CaseStudyMarquee";
-import { HelpCta } from "@/components/HelpCta";
 import { HomeConsultation } from "@/components/HomeConsultation";
 import { MobileCta } from "@/components/MobileCta";
-import { StraightTalk } from "@/components/StraightTalk";
-import { Faq } from "@/components/Faq";
-import { MetaCta } from "@/components/MetaCta";
+import { AboutUs } from "@/components/AboutUs";import { Faq } from "@/components/Faq";
 import { Footer } from "@/components/Footer";
 import { Reveal } from "@/components/Reveal";
 import { HorizonDivider } from "@/components/HorizonDivider";
@@ -22,6 +19,7 @@ export default function Home() {
         <Hero />
         {/* fekete rész a hero folytatásaként: egysoros partner-logó futósáv, utána a horizont-váltás a szöveges szekcióba */}
         <PartnerStrip />
+        {/* a hero és a logósáv tiszta fekete, ezért ez az átmenet is feketéből indul (a többi a --night árnyalatból) */}
         <HorizonDivider from="#000000" to="#f8f9fa" />
         <div className="pastel-flow">
           <Reveal>
@@ -31,26 +29,20 @@ export default function Home() {
             <Offering />
           </Reveal>
         </div>
-        <HorizonDivider from="#f8f9fa" to="#000000" flip />
+        <HorizonDivider from="#f8f9fa" to="#212121" flip />
         <Reveal>
           <CaseStudyMarquee />
         </Reveal>
         <HomeConsultation />
-        <HorizonDivider from="#000000" to="#f8f9fa" />
+        <HorizonDivider from="#212121" to="#f8f9fa" tight />
         <div className="pastel-flow-img">
           <Reveal>
-            <HelpCta />
-          </Reveal>
-          <Reveal>
-            <StraightTalk />
+            <AboutUs />
           </Reveal>
           <Reveal>
             <Faq />
           </Reveal>
         </div>
-        <Reveal>
-          <MetaCta />
-        </Reveal>
       </main>
       <MobileCta />
       <Footer />

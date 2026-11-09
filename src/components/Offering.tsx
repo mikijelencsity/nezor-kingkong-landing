@@ -67,7 +67,7 @@ export function Offering() {
             <h3 className="font-display text-5xl sm:text-6xl">{o.title}</h3>
             <p className="text-lg text-[#5a5a5a]">{o.desc}</p>
             <button
-              onClick={() => openWizard(o.advertised)}
+              onClick={() => openWizard({ advertised: o.advertised })}
               className="btn-roll roll-dark rounded-full bg-accent px-10 py-4 text-base font-semibold text-white">
               <Roll label="Foglalok időpontot" hover="Na végre!" />
             </button>

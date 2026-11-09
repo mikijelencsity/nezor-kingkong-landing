@@ -10,7 +10,7 @@ const faqs = [
   },
   {
     q: "Van havi díj? Mit fedez?",
-    a: "Igen, havi 79 000 Ft, ez a hirdetéskezelés díja — a hirdetési költségtől külön. Ebbe tartozik a célzás, a kreatívok, a szövegírás, az optimalizálás és a heti egyeztetés. Nem tűnünk el, miután megkaptuk a pénzt.",
+    a: "Igen, fix havi díj, ez a hirdetéskezelés díja — a hirdetési költségtől külön. Ebbe tartozik a célzás, a kreatívok, a szövegírás, az optimalizálás és a heti egyeztetés. Nem tűnünk el, miután megkaptuk a pénzt. Az összeget az Árak oldalon találod (menü → Árak).",
   },
   {
     q: "Mi van, ha már van weboldalam vagy Facebook oldalam?",
@@ -18,7 +18,7 @@ const faqs = [
   },
   {
     q: "Milyen iparágakkal dolgoztok?",
-    a: "Webshoptól a kutyakozmetikáig, ékszerszalontól az épületgépészetig. Nem number ez, ha kicsi vagy nagy a céged — az számít, hogy van kinek eladni.",
+    a: "Webshoptól a kutyakozmetikáig, ékszerszalontól az épületgépészetig. Nem az számít, hogy kicsi vagy nagy a céged, hanem az, hogy van kinek eladni.",
   },
   {
     q: "Mi van, ha nem vagyok elégedett?",
@@ -30,10 +30,11 @@ const faqs = [
   },
 ];
 
+// A fölötte lévő Rólunk rész fotói kifutnak az aljára: nagy felső térköz, hogy külön szekcióként váljon el.
 export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section className="px-6 pb-28 pt-6 text-black sm:pb-36 sm:pt-8">
+    <section className="px-6 pb-28 pt-40 text-black sm:pb-36 sm:pt-60">
       <div className="relative mx-auto max-w-5xl">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -81,7 +82,7 @@ export function Faq() {
           SZÓVAL AKKOR FOGLALJUNK EGY IDŐPONTOT?
         </p>
         <Halo>
-          <OpenWizardButton hover="Okos döntés." className="rounded-full bg-accent px-10 py-5 text-lg font-semibold text-white sm:text-xl">
+          <OpenWizardButton service="hirdetes" hover="Okos döntés." className="rounded-full bg-accent px-10 py-5 text-lg font-semibold text-white sm:text-xl">
             Kérek egy konzultációt
           </OpenWizardButton>
         </Halo>
