@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { cases, marqueeCards, type CaseStudy, type UpcomingCase } from "@/data/cases";
-import { CaseCardCompact } from "./CasesExplorer";
 
 // Csak a kép és a név-címke: a számok a hirdetés képén és az esettanulmányok listáján vannak (a kártya oda visz, az ügyfélhez görgetve).
 // Az adat nélküli kártya (UpcomingCase) nem kattintható.
@@ -32,6 +31,44 @@ function ResultCard({ c }: { c: CaseStudy | UpcomingCase }) {
 }
 
 // a képsáv alatt kiemelt ügyfél
+function FeaturedCase({ c }: { c: CaseStudy }) {
+  const nf = (n: number) => n.toLocaleString("hu-HU");
+  return (
+    <Link
+      href={`/esettanulmanyok#${c.slug}`}
+      className="group mx-auto mt-16 grid max-w-5xl items-center gap-6 px-4 text-left sm:mt-20 sm:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] sm:gap-10 sm:px-6 lg:grid-cols-[minmax(0,19rem)_minmax(0,1fr)] lg:gap-14"
+    >
+      <div className="relative mx-auto aspect-[4/5] w-full max-w-xs overflow-hidden rounded-3xl bg-card sm:max-w-none">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={c.image}
+          alt={c.name}
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      </div>
+      <div className="min-w-0">
+        <h3 className="font-display text-[clamp(2.25rem,8vw,4.5rem)] uppercase leading-[1.05]">
+          {nf(c.results.count)} {c.results.unit}
+          <span className="block text-accent">darabja {nf(c.results.costPer)} Ft</span>
+        </h3>
+        <p className="mt-5 text-lg text-white/70 sm:text-xl">{c.subsegment}</p>
+        <div className="mt-6 flex items-center gap-4">
+          {c.logo && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={`/images/partnerek/${c.logo}.webp`}
+              alt=""
+              className="h-10 w-auto rounded-lg bg-white px-2 py-1.5 object-contain sm:h-12"
+            />
+          )}
+          <span className="font-display text-xl uppercase tracking-wide sm:text-2xl">{c.name}</span>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
 const FEATURED_SLUG = "mobilhazgyarto";
 
 export function CaseStudyMarquee() {
@@ -58,12 +95,8 @@ export function CaseStudyMarquee() {
         </div>
       </div>
 
-      {/* kiemelt esettanulmány a képsáv alatt: rövid kártya, csak kép, logó, név és számok */}
-      {featured && (
-        <div className="mx-auto mt-16 max-w-6xl px-4 text-left text-black sm:mt-20 sm:px-6">
-          <CaseCardCompact c={featured} />
-        </div>
-      )}
+      {/* kiemelt esettanulmány a képsáv alatt: csak a kép, a fő szám címként, alatta a téma, a logó és a cégnév */}
+      {featured && <FeaturedCase c={featured} />}
 
       <Link
         href="/esettanulmanyok"

@@ -6,7 +6,8 @@ import { Offering } from "@/components/Offering";
 import { CaseStudyMarquee } from "@/components/CaseStudyMarquee";
 import { HomeConsultation } from "@/components/HomeConsultation";
 import { MobileCta } from "@/components/MobileCta";
-import { AboutUs } from "@/components/AboutUs";import { Faq } from "@/components/Faq";
+import { AboutUs } from "@/components/AboutUs";
+import { Faq } from "@/components/Faq";
 import { Footer } from "@/components/Footer";
 import { Reveal } from "@/components/Reveal";
 import { HorizonDivider } from "@/components/HorizonDivider";
@@ -34,11 +35,12 @@ export default function Home() {
           <CaseStudyMarquee />
         </Reveal>
         <HomeConsultation />
+        {/* a sötét, filmszerű „Rólunk” a konzultáció sötét hátterét folytatja, utána vált világosra */}
+        <Reveal>
+          <AboutUs />
+        </Reveal>
         <HorizonDivider from="#212121" to="#f8f9fa" tight />
         <div className="pastel-flow-img">
-          <Reveal>
-            <AboutUs />
-          </Reveal>
           <Reveal>
             <Faq />
           </Reveal>

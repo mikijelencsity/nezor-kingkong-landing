@@ -44,14 +44,17 @@ function ProofLink() {
 export function LetterSection() {
   return (
     <section className="relative overflow-hidden px-6 pb-4 pt-24 text-black sm:pb-8">
-      {/* oldalsó fények: felül és alul is kifutnak, hogy se a hero éle alatt, se az Offering felé ne legyen varrat */}
+      {/* Oldalsó fények: felül és alul is kifutnak, hogy se a hero éle alatt, se az Offering felé ne legyen varrat.
+          A szélességük a szövegoszlop melletti üres sávhoz igazodik (max-w-3xl = 48rem, plusz 1rem hézag),
+          így a kék sáv 1024–1440 px között sem fut be a szöveg alá. Felső korlát 18rem, alsó 1,5rem
+          (ennyi a section px-6 bélése, tehát keskeny kijelzőn épp a szöveg széléig ér, alá nem). */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-accent/40 via-accent/10 to-transparent [mask-image:linear-gradient(to_bottom,transparent,black_12rem,black_calc(100%-14rem),transparent)] sm:w-48 sm:from-accent/70 sm:via-accent/25 lg:w-72"
+        className="pointer-events-none absolute inset-y-0 left-0 w-[clamp(1.5rem,calc((100vw-48rem)/2-1rem),18rem)] bg-gradient-to-r from-accent/40 via-accent/10 to-transparent [mask-image:linear-gradient(to_bottom,transparent,black_12rem,black_calc(100%-14rem),transparent)] sm:from-accent/70 sm:via-accent/25"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-accent/40 via-accent/10 to-transparent [mask-image:linear-gradient(to_bottom,transparent,black_12rem,black_calc(100%-14rem),transparent)] sm:w-48 sm:from-accent/70 sm:via-accent/25 lg:w-72"
+        className="pointer-events-none absolute inset-y-0 right-0 w-[clamp(1.5rem,calc((100vw-48rem)/2-1rem),18rem)] bg-gradient-to-l from-accent/40 via-accent/10 to-transparent [mask-image:linear-gradient(to_bottom,transparent,black_12rem,black_calc(100%-14rem),transparent)] sm:from-accent/70 sm:via-accent/25"
       />
       <div className="relative mx-auto flex max-w-3xl flex-col gap-8 text-2xl leading-snug sm:gap-11 sm:text-[2rem]">
         {paragraphs.map((p) =>
