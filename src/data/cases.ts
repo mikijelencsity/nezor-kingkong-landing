@@ -73,11 +73,11 @@ export const cases: CaseStudy[] = [
     imageOnly: true,
     logo: "mobilhazgyarto",
     website: "https://mobilhazgyarto.hu/",
-    // a számok a hirdetéskezelő szerint (2026. nov. 17., teljes időtartam: 639 776 Ft / 1 851 = 345,63 Ft); a képernyőkép még a nov. 5-i állapot
+    // a számok és a képernyőkép a hirdetéskezelő szerint (2026. nov. 17., teljes időtartam: 639 793 Ft / 1 851 = 345,65 Ft)
     shots: [
-      { src: "/images/case-studies/kampany/mobilhaz-ref.webp", width: 1677, height: 408, circle: { x: 49.85, y: 81.1, w: 8.2, h: 16.2 }, underline: { x: 60.5, y: 94.6, w: 6.8 } },
+      { src: "/images/case-studies/kampany/mobilhaz-ref.webp", width: 1568, height: 475, circle: { x: 50.38, y: 83.16, w: 8.42, h: 13.26 }, underline: { x: 61.16, y: 94.11, w: 6.82 } },
     ],
-    results: { count: 1851, unit: "ajánlatkérés", costPer: 346, dailySpend: 10000, monthlySpend: 300000, spend: 639776, spendLabel: "Eddigi költés" },
+    results: { count: 1851, unit: "ajánlatkérés", costPer: 346, dailySpend: 10000, monthlySpend: 300000, spend: 639793, spendLabel: "Eddigi költés" },
   },
   {
     // foglalások az Amelia foglalási rendszerből (2026. okt. 18. – nov. 1. között leadott, nem lemondott foglalások);
