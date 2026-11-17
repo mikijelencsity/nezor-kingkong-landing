@@ -64,7 +64,7 @@ export const cases: CaseStudy[] = [
     industry: "Építőipar",
     subsegment: "Mobil- és konténerházak",
     goal: "Ajánlatkérés",
-    headline: "1 523 ajánlatkérés. Darabja 343 forint.",
+    headline: "1 851 ajánlatkérés. Darabja 346 forint.",
     background:
       "Mobil- és konténerházakat gyártó cég. Egy ház kb. 3–15+ millió forintba kerül, így már egyetlen új megrendelő is rengeteg pénzt hoz a cégnek.",
     plan: "Két külön célcsoport, lakossági vevők és ipari megrendelők (büfé, telephelyi iroda), mindkettőnek saját üzenettel.",
@@ -73,11 +73,11 @@ export const cases: CaseStudy[] = [
     imageOnly: true,
     logo: "mobilhazgyarto",
     website: "https://mobilhazgyarto.hu/",
-    // a képernyőkép és a hirdetéskezelő szerint (2026. nov. 5.)
+    // a számok a hirdetéskezelő szerint (2026. nov. 17., teljes időtartam: 639 776 Ft / 1 851 = 345,63 Ft); a képernyőkép még a nov. 5-i állapot
     shots: [
       { src: "/images/case-studies/kampany/mobilhaz-ref.webp", width: 1677, height: 408, circle: { x: 49.85, y: 81.1, w: 8.2, h: 16.2 }, underline: { x: 60.5, y: 94.6, w: 6.8 } },
     ],
-    results: { count: 1523, unit: "ajánlatkérés", costPer: 343, dailySpend: 10000, monthlySpend: 300000, spend: 522028, spendLabel: "Eddigi költés" },
+    results: { count: 1851, unit: "ajánlatkérés", costPer: 346, dailySpend: 10000, monthlySpend: 300000, spend: 639776, spendLabel: "Eddigi költés" },
   },
   {
     // foglalások az Amelia foglalási rendszerből (2026. okt. 18. – nov. 1. között leadott, nem lemondott foglalások);
