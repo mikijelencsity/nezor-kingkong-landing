@@ -45,7 +45,7 @@ export const cases: CaseStudy[] = [
     name: "Mobilházgyártó",
     industry: "Építőipar",
     goal: "Ajánlatkérés",
-    headline: "1 440 ajánlatkérés. Darabja 343 forint.",
+    headline: "1 851 ajánlatkérés. Darabja 346 forint.",
     background:
       "Mobil- és konténerházakat gyártó cég. Egy ház több millió forintba kerül, így már egyetlen új megrendelő is rengeteg pénzt hoz a cégnek.",
     plan: "Két külön célcsoport, lakossági vevők és ipari megrendelők (büfé, telephelyi iroda), mindkettőnek saját üzenettel.",
@@ -54,7 +54,8 @@ export const cases: CaseStudy[] = [
     imageOnly: true,
     logo: "mobilhazgyarto",
     website: "https://mobilhazgyarto.hu/",
-    results: { count: 1440, unit: "ajánlatkérés", costPer: 343, dailySpend: 10000, monthlySpend: 300000, spend: 493528, spendLabel: "Eddigi költés" },
+    // a hirdetéskezelő szerint (2026. nov. 17., teljes időtartam: 639 793 Ft / 1 851 = 345,65 Ft)
+    results: { count: 1851, unit: "ajánlatkérés", costPer: 346, dailySpend: 10000, monthlySpend: 300000, spend: 639793, spendLabel: "Eddigi költés" },
   },
   {
     slug: "empire-build",
